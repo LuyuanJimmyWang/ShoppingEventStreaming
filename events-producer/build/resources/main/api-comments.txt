@@ -1,0 +1,6 @@
+POST WITH-NULL-EVENT-ID - CREATE OPERATION
+---------------------
+curl -i \
+-d '{"eventId":null,"shoppingEventType": "NEW","item":{"itemId":123,"itemName":"new shopping item A","itemDescription":"customer A add item A to the cart"}}' \
+-H "Content-Type: application/json" \
+-X POST http://localhost:8080/v1/shoppingevent/create

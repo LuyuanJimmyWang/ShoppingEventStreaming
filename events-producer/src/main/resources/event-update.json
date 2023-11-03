@@ -1,0 +1,9 @@
+{
+  "eventId": 11,
+  "shoppingEventType": "UPDATE",
+  "item": {
+    "itemId": 11,
+    "itemName": "existed shopping item B",
+    "itemDescription": "update item B event"
+  }
+}

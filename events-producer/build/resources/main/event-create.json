@@ -1,0 +1,9 @@
+{
+  "eventId": null,
+  "shoppingEventType": "NEW",
+  "item": {
+    "itemId": 123,
+    "itemName": "new shopping item A",
+    "itemDescription": "customer A add item A to the cart"
+  }
+}

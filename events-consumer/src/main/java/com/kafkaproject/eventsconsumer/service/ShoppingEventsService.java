@@ -3,6 +3,7 @@ package com.kafkaproject.eventsconsumer.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kafkaproject.eventsconsumer.dto.ShoppingEvent;
+import com.kafkaproject.eventsconsumer.dto.ShoppingEventType;
 import com.kafkaproject.eventsconsumer.repository.ShoppingEventsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -24,17 +25,23 @@ public class ShoppingEventsService {
     // Process event when received
     public void processLibraryEvent(ConsumerRecord<Integer, String> consumerRecord) throws JsonProcessingException {
         // Step 1: Extract Event From the Consumer Record
+        ShoppingEvent shoppingEvent = objectMapper.readValue(consumerRecord.value(), ShoppingEvent.class);
         // Step 2: Store event into our database based on the shopping event type
+
+        if (shoppingEvent.getShoppingEventType() == ShoppingEventType.UPDATE){
+            validate(shoppingEvent);
+        }
+        save(shoppingEvent);
     }
 
     private void validate(ShoppingEvent event){
         // validate event id
-        if(event.getEventId() == null){
+        if(event.getShoppingEventId() == null){
             throw new IllegalArgumentException("Event Id cannot be null");
         }
 
         // validate if UPDATE then exists in database
-        Optional<ShoppingEvent> ShoppingEventOptional = shoppingEventsRepository.findById(event.getEventId());
+        Optional<ShoppingEvent> ShoppingEventOptional = shoppingEventsRepository.findById(event.getShoppingEventId());
         if(ShoppingEventOptional.isEmpty()){
             throw new IllegalArgumentException("Not a valid shopping event");
         }
